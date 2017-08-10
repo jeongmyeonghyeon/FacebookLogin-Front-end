@@ -5,8 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Facebook Login</title>
+  <script src="js/cookie.js"></script>
 </head>
 <body>
+  <!-- https://developers.facebook.com/docs/javascript/quickstart -->
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId            : '312476252540228',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v2.10'
+      });
+      FB.AppEvents.logPageView();
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
   <h1>Facebook Login Front-end example</h1>
+  <!-- http://shub.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%BF%A0%ED%82%A4-%EA%B4%80%EB%A0%A8-%ED%95%A8%EC%88%98-setCookie-getCookie -->
 </body>
 </html>

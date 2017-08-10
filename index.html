@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Facebook Login</title>
+  <!-- http://shub.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%BF%A0%ED%82%A4-%EA%B4%80%EB%A0%A8-%ED%95%A8%EC%88%98-setCookie-getCookie -->
   <script src="js/cookie.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
   <!-- https://developers.facebook.com/docs/javascript/quickstart -->
@@ -29,6 +31,44 @@
      }(document, 'script', 'facebook-jssdk'));
   </script>
   <h1>Facebook Login Front-end example</h1>
-  <!-- http://shub.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%BF%A0%ED%82%A4-%EA%B4%80%EB%A0%A8-%ED%95%A8%EC%88%98-setCookie-getCookie -->
+  <button id="btn-facebook-login" class="btn btn-primary btn-block" onclick="facebookLogin()">Facebook login</button>
+  <script>
+    // cookie에 token이 있는지 검사하여 token 이 없을 경우에만 #btn-facebook-login 을 표시
+    var hasToken = cookieHasToken()
+    if (!hasToken) {
+      document.getElementById('btn-facebook-login').style.display = 'blcok';
+    } else {
+      document.getElementById('btn-facebook-login').style.display = 'none';
+    }
+
+    function facebookLogin() {
+      // 페이스북 버튼을 누른 순간, 브라우저에 페이스북 로그인이 되어있는지 검사
+      FB.getLoginStatus(function(response) {
+
+        if(response.status == 'connected'){
+          console.log(response)
+          backendfacebookLogin(response.authResponse);
+        } else {
+          FB.login(function(response) {
+            console.log(response)
+            backendfacebookLogin(response.authResponse);
+          }, {scope: 'public_profile'});
+        }
+      });
+    }
+
+    function backendfacebookLogin(authResponse){
+      console.log(authResponse);
+    }
+
+    function cookieHasToken() {
+      // 'token'이라는 키에 해당하는 cookie가 있는지 검사결과 리턴
+      var token = getCookie('token')
+      if (token == undefined || token == null || token == '') {
+        return false;
+      }
+      return true;
+    }
+  </script>
 </body>
 </html>
